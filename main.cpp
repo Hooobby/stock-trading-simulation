@@ -19,8 +19,9 @@ int main()
 //    cout<<"debug:"<<price<<endl;
 //    FreeConnect();cd
     ConnectMysql();
-    int id;
-    Login(id,"123456");
-    cout<<id<<endl;
+    //int id;
+    //Login(id,"123456");
+    Logout(10000);
+    FreeConnect();
     return 0;
 }

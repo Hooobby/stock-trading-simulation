@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Hobby/CLionProjects/Stock/database.cpp
-database.h
-C:/Users/Hobby/CLionProjects/Stock/database.h
-mysql.h
--
-cstdio
--
-sstream
--
-
 C:/Users/Hobby/CLionProjects/Stock/database.h
 mysql.h
 -
@@ -23,6 +13,24 @@ iostream
 -
 string
 -
+
+C:/Users/Hobby/CLionProjects/Stock/main.cpp
+iostream
+-
+fstream
+-
+mysql.h
+-
+vector
+-
+string
+-
+stock10.h
+C:/Users/Hobby/CLionProjects/Stock/stock10.h
+database.h
+C:/Users/Hobby/CLionProjects/Stock/database.h
+
+C:/Users/Hobby/CLionProjects/Stock/stock10.h
 
 C:/mysql/include/errmsg.h
 

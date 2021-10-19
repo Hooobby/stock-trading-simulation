@@ -153,6 +153,7 @@ bool Login(int &ID,string password){
 }
 
 bool Logout(int ID){
+    int flg = 0;
     string sql = "SELECT * FROM available_id WHERE start > ";
     stringstream ss;
     string id;
@@ -165,6 +166,7 @@ bool Logout(int ID){
         start = atoi(column[0]);
         nums = atoi(column[1]);
         if(start == ID + 1){
+            flg = 1;
             string tmp;
             sql = "UPDATE available_id SET start = ";
             tmp = minusone(column[0]);
@@ -172,7 +174,7 @@ bool Logout(int ID){
             tmp = plusone(column[1]);
             sql += tmp;sql += " WHERE start = ";
             sql += column[0];sql += ";";
-            return UpdateData(sql);
+            if(!UpdateData(sql))return false;
         }
     }
 
@@ -184,21 +186,32 @@ bool Logout(int ID){
         start = atoi(column[0]);
         nums = atoi(column[1]);
         if(start + nums + 1 == ID){
+            flg = 1;
             sql = "UPDATE available_id SET start = ";
             sql += column[0];sql += ",nums = ";
             string tmp;
             tmp = plusone(column[1]);
             sql += tmp;sql += " WHERE start = ";
             sql += column[0];sql += ";";
-            return UpdateData(sql);
+            if(!UpdateData(sql))return false;
         }
     }
-
-
-    sql = "INSERT INTO available_id (start,nums) VALUE (";
-    sql += id;
-    sql += ",1);";
-    return UpdateData(sql);
+    if(!flg){
+        sql = "INSERT INTO available_id (start,nums) VALUE (";
+        sql += id;
+        sql += ",1);";
+        if(!UpdateData(sql)) return false;
+    }
+    cout << "Return id success" << endl;
+    //从密码库中删去信息：
+    sql = "DELETE FROM password WHERE client_id = ";
+    sql += id; sql += ";";
+    if(!UpdateData(sql))return false;
+    //从用户信息库中删去信息：
+    sql = "DELETE FROM client WHERE client_id = ";
+    sql += id; sql +=";";
+    if(!UpdateData(sql))return false;
+    cout << "Logout success" << endl;
 }
 
 void OutputMysql(){
