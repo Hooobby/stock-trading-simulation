@@ -1,0 +1,3 @@
+C:/Users/Hobby/CLionProjects/Stock/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Hobby/CLionProjects/Stock/cmake-build-debug/CMakeFiles/Stock.dir
+C:/Users/Hobby/CLionProjects/Stock/cmake-build-debug/CMakeFiles/edit_cache.dir
