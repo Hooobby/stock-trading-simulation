@@ -21,7 +21,9 @@ bool UpdateData(string sql);//插入删除修改操作
 bool NewCustomer(int id);
 void FreeConnect();//释放资源
 void Gettodayall();//更新数据库信息
-bool Login(int &ID,string password);
-bool Logout(int ID);
+bool Signup(int &ID,const string password);
+bool Logoff(const int ID);
+int Login(const int ID,const string password);
+bool Logout();
 
 #endif //STOCK_DATABASE_H

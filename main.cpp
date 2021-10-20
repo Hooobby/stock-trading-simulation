@@ -20,8 +20,9 @@ int main()
 //    FreeConnect();cd
     ConnectMysql();
     //int id;
-    //Login(id,"123456");
-    Logout(10000);
+    //Signup(id,"123456");
+    //Login(10000,"123456");
+    //Logoff(10000);
     FreeConnect();
     return 0;
 }

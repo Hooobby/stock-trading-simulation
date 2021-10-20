@@ -33,6 +33,14 @@ string minusone(string str){
     return ret;
 }
 
+string to_str(int a){
+    stringstream ss;
+    string ret;
+    ss<<a;
+    ss>>ret;
+    return ret;
+}
+
 bool query(string sql){
     if(mysql_query(&mysql, sql.c_str())){
         cout << "Failed ( " + (string) mysql_error(&mysql) + " )" << endl;
@@ -109,7 +117,7 @@ bool GetMarketprice(string code,double &ret){
     return true;
 }
 
-bool Login(int &ID,string password){
+bool Signup(int &ID,const string password){
     //Ñ°ÕÒ¿ÉÓÃID£º
     string sql = "SELECT * FROM available_id;";
     if(!query(sql))return false;
@@ -152,7 +160,7 @@ bool Login(int &ID,string password){
     return true;
 }
 
-bool Logout(int ID){
+bool Logoff(const int ID){
     int flg = 0;
     string sql = "SELECT * FROM available_id WHERE start > ";
     stringstream ss;
@@ -177,25 +185,27 @@ bool Logout(int ID){
             if(!UpdateData(sql))return false;
         }
     }
-
-    sql = "SELECT * FROM available_id WHERE start < ";
-    sql += id;
-    sql += " ORDER BY start DESC;";
-    query(sql);
-    if(column = mysql_fetch_row(res)){
-        start = atoi(column[0]);
-        nums = atoi(column[1]);
-        if(start + nums + 1 == ID){
-            flg = 1;
-            sql = "UPDATE available_id SET start = ";
-            sql += column[0];sql += ",nums = ";
-            string tmp;
-            tmp = plusone(column[1]);
-            sql += tmp;sql += " WHERE start = ";
-            sql += column[0];sql += ";";
-            if(!UpdateData(sql))return false;
+    if(!flg){
+        sql = "SELECT * FROM available_id WHERE start < ";
+        sql += id;
+        sql += " ORDER BY start DESC;";
+        query(sql);
+        if(column = mysql_fetch_row(res)){
+            start = atoi(column[0]);
+            nums = atoi(column[1]);
+            if(start + nums + 1 == ID){
+                flg = 1;
+                sql = "UPDATE available_id SET start = ";
+                sql += column[0];sql += ",nums = ";
+                string tmp;
+                tmp = plusone(column[1]);
+                sql += tmp;sql += " WHERE start = ";
+                sql += column[0];sql += ";";
+                if(!UpdateData(sql))return false;
+            }
         }
     }
+
     if(!flg){
         sql = "INSERT INTO available_id (start,nums) VALUE (";
         sql += id;
@@ -213,6 +223,33 @@ bool Logout(int ID){
     if(!UpdateData(sql))return false;
     cout << "Logout success" << endl;
 }
+
+int Login(const int ID,const string password){
+    string sql = "SELECT * FROM password WHERE client_id = ";
+    sql += to_str(ID);
+    sql += ";";
+    if(!query(sql)) {
+        cout << "Database error! Type the password again!" << endl;
+        return 0;
+    }
+    if(column = mysql_fetch_row(res)){
+        if(password == column[1]){
+            cout << "Welcome!" << endl;
+            return 3;
+        }else{
+            cout << "Wrong password!" << endl;
+            return 2;
+        }
+    }else{
+        cout << "Wrong user id!" << endl;
+        return 1;
+    }
+}
+
+bool Logout(){
+
+}
+
 
 void OutputMysql(){
     cout << "Number of dataline returned: " << mysql_affected_rows(&mysql) << endl;
